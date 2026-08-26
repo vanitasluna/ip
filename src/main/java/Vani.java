@@ -14,8 +14,7 @@ public class Vani {
         System.out.println("What can I do for you?");
         System.out.println("____________________________________________________________");
 
-        List<String> tasks = new ArrayList<>();
-        List<Boolean> taskStatus = new ArrayList<>();
+        List<Task> tasks = new ArrayList<>();
 
         try (Scanner scanner = new Scanner(System.in)) {
             while (true) {
@@ -30,11 +29,7 @@ public class Vani {
                 else if (command.equals("list")) {
                     System.out.println("     Here are the tasks in your list:");
                     for (int i = 0; i < tasks.size(); i++) {
-                        if (taskStatus.get(i)) {
-                            System.out.println("        " + (i + 1) + ".[X] " + tasks.get(i));
-                        } else {
-                            System.out.println("        " + (i + 1) + ".[ ] " + tasks.get(i));
-                        }
+                        System.out.println("     " + (i + 1) + ".[" + tasks.get(i).getStatusIcon() + "] " + tasks.get(i).description);
                     }
                 } 
                 else if(command.startsWith("mark")) {
@@ -47,8 +42,8 @@ public class Vani {
                             if (taskNumber < 1 || taskNumber > tasks.size()) {
                                 System.out.println("     Invalid task number.");
                             } else {
-                                String completedTask = tasks.get(taskNumber - 1);
-                                taskStatus.set(taskNumber - 1, true);
+                                String completedTask = tasks.get(taskNumber - 1).description;
+                                tasks.get(taskNumber - 1).markAsDone();
                                 System.out.println("     Nice! I've marked this task as done:");
                                 System.out.println("       [X] " + completedTask);
                             }
@@ -67,8 +62,8 @@ public class Vani {
                             if (taskNumber < 1 || taskNumber > tasks.size()) {
                                 System.out.println("     Invalid task number.");
                             } else {
-                                String uncompletedTask = tasks.get(taskNumber - 1);
-                                taskStatus.set(taskNumber - 1, false);
+                                String uncompletedTask = tasks.get(taskNumber - 1).description;
+                                tasks.get(taskNumber - 1).markAsNotDone();
                                 System.out.println("     OK, I've marked this task as not done yet:");
                                 System.out.println("       [ ] " + uncompletedTask);
                             }
@@ -78,8 +73,7 @@ public class Vani {
                     }
                 }
                 else {
-                    tasks.add(command);
-                    taskStatus.add(false);
+                    tasks.add(new Task(command));
                     System.out.println("     Added: " + command);
                 }
 
