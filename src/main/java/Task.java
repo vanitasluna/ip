@@ -1,16 +1,16 @@
 /**
  * Represents one task managed by the Vani task list.
  *
- * A task starts as incomplete. Its completion state can be changed through
+ * <p>A task starts as incomplete. Its completion state can be changed through
  * the mark methods, while the description remains the text entered by the
- * user.
+ * user.</p>
  */
 public class Task {
     /** The text that describes the work the user wants to remember. */
-    protected String description;
+    private final String description;
 
     /** True when the task has been marked as completed. */
-    protected boolean isDone;
+    private boolean isDone;
 
     /**
      * Creates a new incomplete task with the supplied description.
@@ -23,13 +23,22 @@ public class Task {
     }
 
     /**
+     * Returns the description entered for this task.
+     *
+     * @return the task description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
      * Returns the symbol used by the user interface to display this task's
      * completion state.
      *
      * @return {@code "X"} for a completed task, or a blank space otherwise
      */
     public String getStatusIcon() {
-        return (isDone ? "X" : " ");
+        return isDone ? "X" : " ";
     }
 
     /** Marks this task as completed. */
