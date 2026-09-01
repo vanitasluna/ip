@@ -1,4 +1,9 @@
+/**
+ * Represents a deadline task that has a description and a due date.
+ */
+
 public class Deadline extends Task {
+
     private String by;
 
     /**
@@ -21,6 +26,7 @@ public class Deadline extends Task {
         this.by = by;
     }
 
+    // Returns information about this deadline task.
     @Override
     public String toString() {
         return "[D][" + getStatusIcon() + "] " + getDescription() + " (by: " + by + ")";

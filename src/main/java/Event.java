@@ -1,4 +1,10 @@
+/**
+ * Represents an event task that has a description, a start date, and an end
+ * date.
+ */
+
 public class Event extends Task {
+
     private String from;
     private String to;
 
@@ -32,6 +38,7 @@ public class Event extends Task {
         this.to = to;
     }
 
+    // Returns information about this event task.
     @Override
     public String toString() {
         return "[E][" + getStatusIcon() + "] " + getDescription() + " (from: " + from + " to: " + to + ")";
