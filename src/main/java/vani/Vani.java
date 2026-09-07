@@ -1,6 +1,14 @@
+package vani;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import vani.exception.VaniException;
+import vani.task.Deadline;
+import vani.task.Event;
+import vani.task.Task;
+import vani.task.Todo;
 
 /**
  * The main entry point for Vani, a simple command-line task manager.

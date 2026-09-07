@@ -1,3 +1,5 @@
+package vani.task;
+
 /**
  * Represents a todo task that has only a description.
  */

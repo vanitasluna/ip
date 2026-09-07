@@ -1,3 +1,5 @@
+package vani.task;
+
 /**
  * Represents one task managed by the Vani task list.
  * 

@@ -1,3 +1,5 @@
+package vani.task;
+
 /**
  * Represents an event task that has a description, a start date, and an end
  * date.

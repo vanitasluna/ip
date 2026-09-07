@@ -1,3 +1,5 @@
+package vani.exception;
+
 /**
  * Represents an error caused by invalid input to the Vani chatbot.
  */
