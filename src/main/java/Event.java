@@ -43,5 +43,4 @@ public class Event extends Task {
     public String toString() {
         return "[E][" + getStatusIcon() + "] " + getDescription() + " (from: " + from + " to: " + to + ")";
     }
-    
 }
