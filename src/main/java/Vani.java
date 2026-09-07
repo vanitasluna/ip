@@ -29,7 +29,13 @@ public class Vani {
                 String command = scanner.nextLine();
                 System.out.println(LINE_SEPARATOR);
 
-                boolean shouldExit = handleCommand(command, tasks);
+                boolean shouldExit;
+                try {
+                    shouldExit = handleCommand(command, tasks);
+                } catch (VaniException e) {
+                    System.out.println(INDENT + e.getMessage());
+                    shouldExit = false;
+                }
                 if (shouldExit) {
                     break;
                 }
@@ -46,7 +52,7 @@ public class Vani {
      * @param tasks the list of tasks to modify
      * @return true if the application should exit, false otherwise
      */
-    private static boolean handleCommand(String command, List<Task> tasks) {
+    private static boolean handleCommand(String command, List<Task> tasks) throws VaniException {
         // exit command
         if (command.equals("bye")) {
             System.out.println(INDENT + "uwu Bye. Hope to see you again soon!");
@@ -81,9 +87,7 @@ public class Vani {
             handleEventCommand(command, tasks);
             return false;
         }
-        // command not recognized error
-        System.out.println(INDENT + "I'm sorry, I don't understand that command. T-T");
-        return false;
+        throw new VaniException("I'm sorry, I don't understand that command. T-T");
     }
 
     /**
@@ -92,16 +96,15 @@ public class Vani {
      * @param command the mark command
      * @param tasks the list of tasks
      */
-    private static void handleMarkCommand(String command, List<Task> tasks) {
+    private static void handleMarkCommand(String command, List<Task> tasks) throws VaniException {
         String[] parts = command.trim().split("\\s+");
         if (parts.length < 2) {
-            System.out.println(INDENT + "You didn't specify the task number to mark as done. o_O");
-            return;
+            throw new VaniException("You didn't specify the task number to mark as done. o_O");
         }
         try {
             int taskNumber = Integer.parseInt(parts[1]);
             if (taskNumber < 1 || taskNumber > tasks.size()) {
-                System.out.println(INDENT + "Invalid task number. >:[");
+                throw new VaniException("Invalid task number. >:[");
             } else {
                 Task task = tasks.get(taskNumber - 1);
                 task.markAsDone();
@@ -109,7 +112,7 @@ public class Vani {
                 System.out.println("       [X] " + task.getDescription());
             }
         } catch (NumberFormatException e) {
-            System.out.println(INDENT + "Invalid task number format. >:[");
+            throw new VaniException("Invalid task number format. >:[");
         }
     }
 
@@ -119,16 +122,15 @@ public class Vani {
      * @param command the unmark command
      * @param tasks the list of tasks
      */
-    private static void handleUnmarkCommand(String command, List<Task> tasks) {
+    private static void handleUnmarkCommand(String command, List<Task> tasks) throws VaniException {
         String[] parts = command.trim().split("\\s+");
         if (parts.length < 2) {
-            System.out.println(INDENT + "You didn't specify the task number to unmark. o_O");
-            return;
+            throw new VaniException("You didn't specify the task number to unmark. o_O");
         }
         try {
             int taskNumber = Integer.parseInt(parts[1]);
             if (taskNumber < 1 || taskNumber > tasks.size()) {
-                System.out.println(INDENT + "Invalid task number. >:[");
+                throw new VaniException("Invalid task number. >:[");
             } else {
                 Task task = tasks.get(taskNumber - 1);
                 task.markAsNotDone();
@@ -136,7 +138,7 @@ public class Vani {
                 System.out.println("       [ ] " + task.getDescription());
             }
         } catch (NumberFormatException e) {
-            System.out.println(INDENT + "Invalid task number format. >:[");
+            throw new VaniException("Invalid task number format. >:[");
         }
     }
 
@@ -146,14 +148,11 @@ public class Vani {
      * @param command the todo command
      * @param tasks the list of tasks to add to
      */
-    private static void handleTodoCommand(String command, List<Task> tasks) {
+    private static void handleTodoCommand(String command, List<Task> tasks) throws VaniException {
         String description = command.substring(4).trim();
 
-        // description empty error
         if (description.isEmpty()) {
-            System.out.println(INDENT
-                    + "The description of a todo cannot be empty. o_O");
-            return;
+            throw new VaniException("The description of a todo cannot be empty. o_O");
         }
 
         Todo newTask = new Todo(description);
@@ -171,36 +170,28 @@ public class Vani {
      * @param command the deadline command
      * @param tasks the list of tasks to add to
      */
-    private static void handleDeadlineCommand(String command, List<Task> tasks) {
+    private static void handleDeadlineCommand(String command, List<Task> tasks) throws VaniException {
         String content = command.substring(8).trim();
 
-        // content empty error
         if (content.isEmpty()) {
-            System.out.println(INDENT + "The description of a deadline cannot be empty. o_O");
-            return;
+            throw new VaniException("The description of a deadline cannot be empty. o_O");
         }
 
         int byIndex = content.indexOf("/by");
 
-        // '/by' not found error
         if (byIndex == -1) {
-            System.out.println(INDENT + "You didn't specify the due date for the deadline. o_O");
-            return;
+            throw new VaniException("You didn't specify the due date for the deadline. o_O");
         }
 
         String description = content.substring(0, byIndex).trim();
         String by = content.substring(byIndex + 3).trim();
 
-        // description empty error
         if (description.isEmpty()) {
-            System.out.println(INDENT + "The description of a deadline cannot be empty. o_O");
-            return;
+            throw new VaniException("The description of a deadline cannot be empty. o_O");
         }
 
-        // due date empty error
         if (by.isEmpty()) {
-            System.out.println(INDENT + "The due date of a deadline cannot be empty. o_O");
-            return;
+            throw new VaniException("The due date of a deadline cannot be empty. o_O");
         }
 
         Deadline newTask = new Deadline(description, by);
@@ -218,56 +209,42 @@ public class Vani {
      * @param command the event command
      * @param tasks the list of tasks to add to
      */
-    private static void handleEventCommand(String command, List<Task> tasks) {
+    private static void handleEventCommand(String command, List<Task> tasks) throws VaniException {
         String content = command.substring(5).trim();
 
-        // content empty error
         if (content.isEmpty()) {
-            System.out.println(INDENT + "The description of an event cannot be empty. o_O");
-            return;
+            throw new VaniException("The description of an event cannot be empty. o_O");
         }
 
         int fromIndex = content.indexOf("/from");
         int toIndex = content.indexOf("/to");
 
-        // '/from' not found error
         if (fromIndex == -1) {
-            System.out.println(INDENT + "You didn't specify the start date for the event. o_O");
-            return;
+            throw new VaniException("You didn't specify the start date for the event. o_O");
         }
 
-        // '/to' not found error
         if (toIndex == -1) {
-            System.out.println(INDENT + "You didn't specify the end date for the event. o_O");
-            return;
+            throw new VaniException("You didn't specify the end date for the event. o_O");
         }
 
-        // '/to' appears before '/from' error
         if (toIndex < fromIndex) {
-            System.out.println(INDENT + "Please specify /from before /to. o_O");
-            return;
+            throw new VaniException("Please specify /from before /to. o_O");
         }
 
         String description = content.substring(0, fromIndex).trim();
         String from = content.substring(fromIndex + 5, toIndex).trim();
         String to = content.substring(toIndex + 3).trim();
 
-        // description empty error
         if (description.isEmpty()) {
-            System.out.println(INDENT + "The description of an event cannot be empty. o_O");
-            return;
+            throw new VaniException("The description of an event cannot be empty. o_O");
         }
 
-        // from empty error
         if (from.isEmpty()) {
-            System.out.println(INDENT + "The start date of an event cannot be empty. o_O");
-            return;
+            throw new VaniException("The start date of an event cannot be empty. o_O");
         }
 
-        // to empty error
         if (to.isEmpty()) {
-            System.out.println(INDENT + "The end date of an event cannot be empty. o_O");
-            return;
+            throw new VaniException("The end date of an event cannot be empty. o_O");
         }
 
         Event newTask = new Event(description, from, to);
@@ -298,7 +275,7 @@ public class Vani {
      * @param tasks the list of tasks to display
      */
     private static void printTaskList(List<Task> tasks) {
-        // list empty error
+        // list empty case
         if (tasks.isEmpty()) {
             System.out.println(INDENT + "Yay! You have no tasks in your list. >.<");
             return;
