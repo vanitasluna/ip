@@ -1,4 +1,3 @@
 T | 0 | eat
 D | 1 | study | monday
 E | 0 | ip | monday | friday
-T | 0 | play

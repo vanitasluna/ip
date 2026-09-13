@@ -168,6 +168,7 @@ public class Vani {
                 throw new VaniException("Invalid task number. >:[");
             } else {
                 Task task = tasks.remove(taskNumber - 1);
+                Storage.save(tasks);
                 System.out.println(INDENT + "OK, I've deleted this task from the list: -.-");
                 System.out.println(INDENT + "  " + taskNumber + "." + task.toString());
             } 
