@@ -66,7 +66,6 @@ public class Storage {
     public static List<Task> load() {
         List<Task> tasks = new ArrayList<>();
 
-        // The data file may not exist when Vani is run for the first time.
         if (!Files.exists(DATA_FILE)) {
             return tasks;
         }
@@ -79,29 +78,46 @@ public class Storage {
                     continue;
                 }
 
-                String[] parts = line.split("\\s*\\|\\s*");
+                try {
+                    String[] parts = line.split("\\s*\\|\\s*");
 
-                String type = parts[0];
-                boolean isDone = parts[1].equals("1");
+                    if (parts.length < 2) {
+                        System.out.println("Warning: Skipping corrupted line.");
+                        continue;
+                    }
 
-                Task task = null;
+                    String type = parts[0];
+                    String status = parts[1];
 
-                if (type.equals("T") && parts.length == 3) {
-                    task = new Todo(parts[2]);
+                    if (!status.equals("0") && !status.equals("1")) {
+                        System.out.println("Warning: Skipping corrupted line.");
+                        continue;
+                    }
 
-                } else if (type.equals("D") && parts.length == 4) {
-                    task = new Deadline(parts[2], parts[3]);
+                    Task task = null;
 
-                } else if (type.equals("E") && parts.length == 5) {
-                    task = new Event(parts[2], parts[3], parts[4]);
-                }
+                    if (type.equals("T") && parts.length == 3) {
+                        task = new Todo(parts[2]);
 
-                if (task != null) {
-                    if (isDone) {
+                    } else if (type.equals("D") && parts.length == 4) {
+                        task = new Deadline(parts[2], parts[3]);
+
+                    } else if (type.equals("E") && parts.length == 5) {
+                        task = new Event(parts[2], parts[3], parts[4]);
+
+                    } else {
+                        System.out.println("Warning: Skipping corrupted line.");
+                        continue;
+                    }
+
+                    if (status.equals("1")) {
                         task.markAsDone();
                     }
 
                     tasks.add(task);
+
+                } catch (RuntimeException e) {
+                    System.out.println("Warning: Skipping corrupted line.");
                 }
             }
 
