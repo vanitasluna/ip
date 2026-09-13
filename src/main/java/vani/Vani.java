@@ -157,6 +157,12 @@ public class Vani {
         }
     }
 
+    /**
+     * Handles the "delete" command to delete a task from the list.
+     *
+     * @param command the delete command
+     * @param tasks the list of tasks
+     */
     private static void handleDeleteCommand(String command, List<Task> tasks) throws VaniException {
         String[] parts = command.trim().split("\\s+");
         if (parts.length < 2) {

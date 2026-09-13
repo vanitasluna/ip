@@ -12,10 +12,25 @@ import vani.task.Event;
 import vani.task.Task;
 import vani.task.Todo;
 
+/**
+ * Handles saving and loading tasks to and from the data file.
+ */
 public class Storage {
 
+    /**
+     * The path of the file used to store task data.
+     */
     private static final Path DATA_FILE = Paths.get("data", "vani.txt");
 
+    /**
+     * Saves all tasks to the data file.
+     *
+     * The data directory is created automatically if it does not exist.
+     * Each task is stored in a format that records its type, completion status,
+     * and task-specific information.
+     *
+     * @param tasks the list of tasks to save
+     */
     public static void save(List<Task> tasks) {
         try {
             Files.createDirectories(DATA_FILE.getParent());
@@ -63,6 +78,15 @@ public class Storage {
         }
     }
 
+    /**
+     * Loads tasks from the data file.
+     *
+     * If the data file does not exist, an empty task list is returned.
+     * Corrupted lines are skipped so that invalid data does not prevent
+     * the remaining valid tasks from being loaded.
+     *
+     * @return a list of tasks loaded from the data file
+     */
     public static List<Task> load() {
         List<Task> tasks = new ArrayList<>();
 
