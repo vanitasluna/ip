@@ -82,6 +82,11 @@ public class Vani {
             handleUnmarkCommand(command, tasks);
             return false;
         }
+        // delete command
+        if (command.startsWith("delete")) {
+            handleDeleteCommand(command, tasks);
+            return false;
+        }
         // task creation commands
         if (command.startsWith("todo")) {
             handleTodoCommand(command, tasks);
@@ -117,7 +122,7 @@ public class Vani {
                 Task task = tasks.get(taskNumber - 1);
                 task.markAsDone();
                 System.out.println(INDENT + "Nice! I've marked this task as done: <3");
-                System.out.println("       [X] " + task.getDescription());
+                System.out.println(INDENT + "  " + taskNumber + "." + task.toString());
             }
         } catch (NumberFormatException e) {
             throw new VaniException("Invalid task number format. >:[");
@@ -143,8 +148,27 @@ public class Vani {
                 Task task = tasks.get(taskNumber - 1);
                 task.markAsNotDone();
                 System.out.println(INDENT + "OK, I've marked this task as not done yet: -.-");
-                System.out.println("       [ ] " + task.getDescription());
+                System.out.println(INDENT + "  " + taskNumber + "." + task.toString());
             }
+        } catch (NumberFormatException e) {
+            throw new VaniException("Invalid task number format. >:[");
+        }
+    }
+
+    private static void handleDeleteCommand(String command, List<Task> tasks) throws VaniException {
+        String[] parts = command.trim().split("\\s+");
+        if (parts.length < 2) {
+            throw new VaniException("You didn't specify the task number to delete. o_O");
+        }
+        try {
+            int taskNumber = Integer.parseInt(parts[1]);
+            if (taskNumber < 1 || taskNumber > tasks.size()) {
+                throw new VaniException("Invalid task number. >:[");
+            } else {
+                Task task = tasks.remove(taskNumber - 1);
+                System.out.println(INDENT + "OK, I've deleted this task from the list: -.-");
+                System.out.println(INDENT + "  " + taskNumber + "." + task.toString());
+            } 
         } catch (NumberFormatException e) {
             throw new VaniException("Invalid task number format. >:[");
         }
