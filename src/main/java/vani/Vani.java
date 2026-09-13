@@ -30,7 +30,7 @@ public class Vani {
         // Display greeting message
         printGreeting();
 
-        List<Task> tasks = new ArrayList<>();
+        List<Task> tasks = Storage.load();
 
         try (Scanner scanner = new Scanner(System.in)) {
             while (true) {
@@ -121,6 +121,7 @@ public class Vani {
             } else {
                 Task task = tasks.get(taskNumber - 1);
                 task.markAsDone();
+                Storage.save(tasks);
                 System.out.println(INDENT + "Nice! I've marked this task as done: <3");
                 System.out.println(INDENT + "  " + taskNumber + "." + task.toString());
             }
@@ -147,6 +148,7 @@ public class Vani {
             } else {
                 Task task = tasks.get(taskNumber - 1);
                 task.markAsNotDone();
+                Storage.save(tasks);
                 System.out.println(INDENT + "OK, I've marked this task as not done yet: -.-");
                 System.out.println(INDENT + "  " + taskNumber + "." + task.toString());
             }
@@ -189,6 +191,7 @@ public class Vani {
 
         Todo newTask = new Todo(description);
         tasks.add(newTask);
+        Storage.save(tasks);
 
         // Print confirmation message
         System.out.println(INDENT + "Got it. I've added this todo: ^-^");
@@ -228,6 +231,7 @@ public class Vani {
 
         Deadline newTask = new Deadline(description, by);
         tasks.add(newTask);
+        Storage.save(tasks);
 
         // Print confirmation message
         System.out.println(INDENT + "Got it. I've added this deadline: ^-^");
@@ -281,6 +285,7 @@ public class Vani {
 
         Event newTask = new Event(description, from, to);
         tasks.add(newTask);
+        Storage.save(tasks);
 
         // Print confirmation message
         System.out.println(INDENT + "Got it. I've added this event: ^-^");
@@ -318,5 +323,13 @@ public class Vani {
             Task task = tasks.get(i);
             System.out.println(INDENT + (i + 1) + "." + task.toString());
         }
+    }
+
+    public static void save(List<Task> tasks) {
+
+    }
+
+    public static void load(List<Task> tasks) {
+
     }
 }
