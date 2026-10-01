@@ -87,6 +87,23 @@ public class Ui implements AutoCloseable {
     }
 
     /**
+     * Displays search results numbered from 1, or a message if there are no matches.
+     *
+     * @param matchingTasks the tasks whose descriptions match the search keyword
+     */
+    public void showMatchingTasks(List<Task> matchingTasks) {
+        if (matchingTasks.isEmpty()) {
+            System.out.println(INDENT + "No matching tasks found. o_O");
+            return;
+        }
+
+        System.out.println(INDENT + "Here are the matching tasks in your list: =^-^=");
+        for (int i = 0; i < matchingTasks.size(); i++) {
+            System.out.println(INDENT + (i + 1) + "." + matchingTasks.get(i));
+        }
+    }
+
+    /**
      * Confirms that a new task has been added and saved.
      *
      * @param taskType the name of the task type, such as "todo"

@@ -81,6 +81,9 @@ public class Vani {
             case LIST:
                 ui.showTaskList(tasks);
                 break;
+            case FIND:
+                ui.showMatchingTasks(tasks.findTasks(command.getSearchKeyword()));
+                break;
             case MARK:
                 Task markedTask = tasks.markTask(command.getTaskNumber());
                 storage.save(tasks.getTasks());

@@ -28,6 +28,11 @@ public class Parser {
             case "list":
                 checkNoArguments(arguments);
                 return new Command(Command.Type.LIST, 0, null);
+            case "find":
+                if (arguments.isEmpty()) {
+                    throw new VaniException("The keyword for find cannot be empty. o_O");
+                }
+                return new Command(arguments);
             case "mark":
                 return new Command(Command.Type.MARK, parseTaskNumber(arguments, "mark as done"), null);
             case "unmark":

@@ -12,6 +12,7 @@ public class Command {
     public enum Type {
         BYE("bye"),
         LIST("list"),
+        FIND("find"),
         MARK("mark"),
         UNMARK("unmark"),
         DELETE("delete"),
@@ -38,6 +39,7 @@ public class Command {
     private final Type type;
     private final int taskNumber;
     private final Task task;
+    private final String searchKeyword;
 
     /**
      * Creates a parsed command. Only Parser needs to construct these objects.
@@ -50,6 +52,19 @@ public class Command {
         this.type = type;
         this.taskNumber = taskNumber;
         this.task = task;
+        searchKeyword = null;
+    }
+
+    /**
+     * Creates a find command containing its search keyword.
+     *
+     * @param searchKeyword the text to search for in task descriptions
+     */
+    Command(String searchKeyword) {
+        type = Type.FIND;
+        taskNumber = 0;
+        task = null;
+        this.searchKeyword = searchKeyword;
     }
 
     /**
@@ -77,5 +92,14 @@ public class Command {
      */
     public Task getTask() {
         return task;
+    }
+
+    /**
+     * Returns the search keyword supplied by a find command.
+     *
+     * @return the search keyword, or null for other commands
+     */
+    public String getSearchKeyword() {
+        return searchKeyword;
     }
 }

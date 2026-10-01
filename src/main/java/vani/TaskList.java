@@ -39,6 +39,23 @@ public class TaskList {
     }
 
     /**
+     * Finds tasks whose descriptions contain the keyword, preserving their order.
+     * Matching is case-sensitive and leaves the original task list unchanged.
+     *
+     * @param keyword the text to search for in task descriptions
+     * @return the matching tasks
+     */
+    public List<Task> findTasks(String keyword) {
+        List<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getDescription().contains(keyword)) {
+                matchingTasks.add(task);
+            }
+        }
+        return matchingTasks;
+    }
+
+    /**
      * Marks a task as completed.
      *
      * @param taskNumber the task's number, starting from 1
