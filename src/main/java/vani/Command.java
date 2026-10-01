@@ -10,18 +10,32 @@ public class Command {
      * Identifies the operations supported by Vani and their command keywords.
      */
     public enum Type {
+        /** Ends the interactive session. */
         BYE("bye"),
+        /** Displays every task in the list. */
         LIST("list"),
+        /** Searches for text in task descriptions. */
         FIND("find"),
+        /** Marks a task as completed. */
         MARK("mark"),
+        /** Marks a task as incomplete. */
         UNMARK("unmark"),
+        /** Removes a task from the list. */
         DELETE("delete"),
+        /** Adds a task containing only a description. */
         TODO("todo"),
+        /** Adds a task with a due date. */
         DEADLINE("deadline"),
+        /** Adds a task with a start date and an end date. */
         EVENT("event");
 
         private final String keyword;
 
+        /**
+         * Associates an operation with the keyword entered by the user.
+         *
+         * @param keyword the text that identifies this operation
+         */
         Type(String keyword) {
             this.keyword = keyword;
         }

@@ -11,6 +11,12 @@ import vani.task.Todo;
  */
 public class Parser {
     /**
+     * Creates a parser for Vani's supported command syntax.
+     */
+    public Parser() {
+    }
+
+    /**
      * Parses a command keyword and its arguments without changing any tasks.
      *
      * @param input the line entered by the user
