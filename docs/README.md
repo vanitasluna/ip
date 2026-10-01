@@ -7,10 +7,18 @@ You can mark tasks as completed, search their descriptions, and save your task l
 
 You need **Java 25** to run Vani.
 
-1. Open the project in your Java IDE, such as VS Code or IntelliJ IDEA.
-2. Configure the project to use Java 25 and the project root folder as its working directory.
-3. Open `src/main/java/vani/Vani.java` and run its `main` method.
+1. Place `Vani.jar` in a folder where you want to keep your task data.
+2. Open a terminal in that folder and run `java -version` to confirm Java 25 is being used.
+3. Start Vani with the following command:
+
+   ```text
+   java -jar Vani.jar
+   ```
+
 4. When Vani greets you, type a command and press **Enter**.
+
+If you are working from the source code, follow the [build instructions](../README.md#building-a-runnable-jar)
+to create `build/libs/Vani.jar`. You can launch it from the project root with `java -jar build/libs/Vani.jar`.
 
 ## Command summary
 

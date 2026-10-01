@@ -3,6 +3,7 @@
 /out/
 /*.iml
 *.jar
+!/gradle/wrapper/gradle-wrapper.jar
 
 # Gradle build files
 /.gradle/
